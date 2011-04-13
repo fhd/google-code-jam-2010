@@ -26,4 +26,8 @@ BOOST_AUTO_TEST_CASE(test_multiple)
    require_light_bulb_on(4, 47, true);
 }
 
+BOOST_AUTO_TEST_CASE(test_stack_overflow)
+{
+   require_light_bulb_on(4, 5898150, false);
+}
 
