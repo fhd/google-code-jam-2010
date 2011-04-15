@@ -3,7 +3,7 @@
 
 #include <string>
 #include <boost/test/unit_test.hpp>
-#include <snapper.hpp>
+#include <snapper_chain.hpp>
 
 void require_light_bulb_on(int snapper, int snaps, bool on)
 {

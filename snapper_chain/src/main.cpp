@@ -8,7 +8,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "snapper.hpp"
+#include "snapper_chain.hpp"
 
 namespace fs = boost::filesystem;
 
