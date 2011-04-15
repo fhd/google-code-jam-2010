@@ -1,4 +1,5 @@
-inline int snaps_required_for(int snappers) {
+inline int snaps_required_for(int snappers)
+{
    if (snappers == 1)
       return 1;
    return snaps_required_for(snappers - 1) * 2 + 1;
