@@ -9,5 +9,5 @@ inline bool is_light_bulb_on(int snappers, int snaps)
 {
    int snaps_required = snaps_required_for(snappers);
    for (; snaps > snaps_required; snaps -= snaps_required + 1);
-   return snaps == snaps_required;;
+   return snaps == snaps_required;
 }
