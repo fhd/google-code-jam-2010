@@ -1,8 +1,6 @@
 #include <vector>
 
-inline int calculate_apocalypse(std::vector<int> events)
-{
-    // TODO: Implement this properly.
-    return 4000;
-}
+int greatest_common_divisor(std::vector<int> numbers);
+int calculate_apocalypse(std::vector<int> events);
+
 
