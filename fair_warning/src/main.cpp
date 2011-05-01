@@ -22,7 +22,16 @@ void process(const std::string& input_file, const std::string& output_file)
       if (line.empty())
          continue;
 
-      // TODO: Read test cases and write results.
+      std::vector<std::string> elements;
+      boost::split(elements, line, boost::is_any_of(" "));
+      std::vector<int> events;
+      for (std::vector<std::string>::iterator it = ++elements.begin();
+           it != elements.end(); it++)
+          events.push_back(boost::lexical_cast<int>(*it));
+
+      output << "Case #" << i << ": "
+             << calculate_apocalypse(events)
+             << std::endl;
    }
 }
 
