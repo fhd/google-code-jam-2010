@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <limits>
 #include <boost/foreach.hpp>
 #include <boost/math/common_factor.hpp>
@@ -14,9 +15,9 @@ int greatest_common_divisor(std::vector<int> numbers)
 
 int calculate_apocalypse(std::vector<int> events)
 {
-    int max_int = std::numeric_limits<int>::max(), apocalypse = 0,
-        max_gcd = 0;
-    for (int i = 0; i < max_int - max_gcd; i += max_gcd) {
+    const int max_event = *std::max_element(events.begin(), events.end());
+    int apocalypse = 0, max_gcd = 0;
+    for (int i = 0;;) {
         std::vector<int> events_plus_i(events);
         for (std::vector<int>::iterator it = events_plus_i.begin();
              it != events_plus_i.end(); it++)
@@ -27,6 +28,11 @@ int calculate_apocalypse(std::vector<int> events)
             max_gcd = gcd;
             apocalypse = i;
         }
+
+        if (i > max_event * 10)
+            break;
+
+        i += max_gcd;
     }
     return apocalypse;
 }

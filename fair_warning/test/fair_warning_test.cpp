@@ -28,4 +28,8 @@ BOOST_AUTO_TEST_CASE(test_calculate_apocalypse)
     require_apocalypse_in(4000000, 26000000, 11000000, 6000000);
 }
 
-// TODO: Test that 0 is returned if there is no common divisor.
+BOOST_AUTO_TEST_CASE(test_calculate_apocalypse_not_possible)
+{
+    require_apocalypse_in(0, 1, 10, 11);
+}
+
