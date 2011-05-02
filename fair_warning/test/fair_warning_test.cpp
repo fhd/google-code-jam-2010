@@ -10,26 +10,33 @@ using namespace boost::assign;
 
 BOOST_AUTO_TEST_CASE(test_greatest_common_divisor)
 {
-    std::vector<int> numbers;
+    std::vector<bigint> numbers;
     numbers += 5, 10, 15;
-    BOOST_REQUIRE_EQUAL(5, greatest_common_divisor(numbers));
-}
-
-void require_apocalypse_in(int expected, int event1, int event2, int event3)
-{
-    std::vector<int> events;
-    events += event1, event2, event3;
-    BOOST_REQUIRE_EQUAL(expected, calculate_apocalypse(events));
+    BOOST_REQUIRE_EQUAL("5", greatest_common_divisor(numbers).get_str());
 }
 
 BOOST_AUTO_TEST_CASE(test_calculate_apocalypse)
 {
-    require_apocalypse_in(4000, 26000, 11000, 6000);
-    require_apocalypse_in(4000000, 26000000, 11000000, 6000000);
+    std::vector<bigint> events;
+    events += 26000, 11000, 6000;
+    BOOST_REQUIRE_EQUAL("4000", calculate_apocalypse(events).get_str());
+    events.clear();
+    events += 26000000, 11000000, 6000000;
+    BOOST_REQUIRE_EQUAL("4000000", calculate_apocalypse(events).get_str());
 }
 
 BOOST_AUTO_TEST_CASE(test_calculate_apocalypse_not_possible)
 {
-    require_apocalypse_in(0, 1, 10, 11);
+    std::vector<bigint> events;
+    events += 1, 10, 11;
+    BOOST_REQUIRE_EQUAL("0", calculate_apocalypse(events).get_str());
 }
 
+BOOST_AUTO_TEST_CASE(test_calculate_bigint_apocalypse)
+{
+    std::vector<bigint> events;
+    events += bigint("800000000000000000001"),
+        bigint("900000000000000000001");
+    BOOST_REQUIRE_EQUAL("99999999999999999999",
+                        calculate_apocalypse(events).get_str());
+}

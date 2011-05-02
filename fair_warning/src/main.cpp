@@ -24,13 +24,13 @@ void process(const std::string& input_file, const std::string& output_file)
 
       std::vector<std::string> elements;
       boost::split(elements, line, boost::is_any_of(" "));
-      std::vector<int> events;
+      std::vector<bigint> events;
       for (std::vector<std::string>::iterator it = ++elements.begin();
            it != elements.end(); it++)
-          events.push_back(boost::lexical_cast<int>(*it));
+          events.push_back(bigint(*it));
 
       output << "Case #" << i << ": "
-             << calculate_apocalypse(events)
+             << calculate_apocalypse(events).get_str()
              << std::endl;
    }
 }
