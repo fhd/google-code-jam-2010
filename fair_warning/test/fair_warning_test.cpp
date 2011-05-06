@@ -1,7 +1,6 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 
-#include <string>
 #include <boost/test/unit_test.hpp>
 #include <boost/assign.hpp>
 #include <fair_warning.hpp>
