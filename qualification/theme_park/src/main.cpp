@@ -25,17 +25,19 @@ void process(const std::string& input_file, const std::string& output_file)
       if (line.empty())
          continue;
 
-      std::vector<std::string> elements;
-      boost::split(elements, line, boost::is_any_of(" "));
-
       // Every problem consists of two lines
       if (first_line) {
+          std::vector<std::string> elements;
+          boost::split(elements, line, boost::is_any_of(" "));
           rounds = boost::lexical_cast<int>(elements[0]);
           capacity = boost::lexical_cast<int>(elements[1]);
           first_line = false;
       } else {
           std::queue<int> groups;
-          for (std::vector<std::string>::iterator it = elements.begin(); it != elements.end(); it++)
+          typedef boost::split_iterator<std::string::iterator> string_split_iterator;
+          for (string_split_iterator it =
+                   boost::make_split_iterator(line, boost::first_finder(" ", boost::is_equal()));
+               it != string_split_iterator(); it++)
               groups.push(boost::lexical_cast<int>(*it));
           output << "Case #" << i++ << ": "
                  << profit_from(rounds, capacity, groups)
