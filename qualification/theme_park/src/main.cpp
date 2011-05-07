@@ -34,9 +34,10 @@ void process(const std::string& input_file, const std::string& output_file)
           first_line = false;
       } else {
           std::queue<int> groups;
-          typedef boost::split_iterator<std::string::iterator> string_split_iterator;
-          for (string_split_iterator it =
-                   boost::make_split_iterator(line, boost::first_finder(" ", boost::is_equal()));
+          typedef boost::split_iterator<std::string::iterator>
+              string_split_iterator;
+          for (string_split_iterator it = boost::make_split_iterator(
+                   line, boost::first_finder(" ", boost::is_equal()));
                it != string_split_iterator(); it++)
               groups.push(boost::lexical_cast<int>(*it));
           output << "Case #" << i++ << ": "
