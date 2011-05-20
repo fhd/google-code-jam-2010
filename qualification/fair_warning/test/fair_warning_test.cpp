@@ -7,13 +7,6 @@
 
 using namespace boost::assign;
 
-BOOST_AUTO_TEST_CASE(test_greatest_common_divisor)
-{
-    std::vector<bigint> numbers;
-    numbers += 5, 10, 15;
-    BOOST_REQUIRE_EQUAL("5", greatest_common_divisor(numbers).get_str());
-}
-
 BOOST_AUTO_TEST_CASE(test_calculate_apocalypse)
 {
     std::vector<bigint> events;
