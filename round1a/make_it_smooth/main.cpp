@@ -1,15 +1,9 @@
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <boost/lexical_cast.hpp>
-
-struct Costs {
-    int d;
-    int i;
-    int m;
-    int n;
-};
 
 void read_numeric_line(std::vector<int> &elements) {
     std::string line;
@@ -21,39 +15,47 @@ void read_numeric_line(std::vector<int> &elements) {
         elements.push_back(boost::lexical_cast<int>(element));
 }
 
-void read_costs(Costs& costs)
+void read_case(std::vector<int>& settings, std::vector<int>& pixels)
 {
-    std::vector<int> costs_vector;
-    read_numeric_line(costs_vector);
-    costs.d = costs_vector[0];
-    costs.i = costs_vector[1];
-    costs.m = costs_vector[2];
-    costs.n = costs_vector[3];
+    read_numeric_line(settings);
+    read_numeric_line(pixels);
 }
 
-void read_case(Costs& costs, std::vector<int>& array)
+int solve(std::vector<int>::const_iterator first,
+          std::vector<int>::const_iterator last, int final_value,
+          int d, int i, int m)
 {
-    read_costs(costs);
-    read_numeric_line(array);
+    if (first == last)
+        return 0;
+
+    int best = solve(first, last - 1, final_value, d, i, m) + d;
+    for (int prev_value = 0; prev_value < 255; prev_value++) {
+        int prev_cost = solve(first, last - 1, prev_value, d, i, m);
+        int move_cost = abs(final_value - *last);
+        int num_inserts = (abs(final_value - *last) - 1) / m;
+        int insert_cost = num_inserts * i;
+        best = std::min(best, prev_cost + move_cost + insert_cost);
+    }
+    return best;
 }
 
-int calculate_cost(const Costs& costs, const std::vector<int>& array)
+int calculate_cost(const std::vector<int>& settings,
+                   const std::vector<int>& pixels)
 {
-/*
-    Look at three elements in turn, then calculate the cost of smoothing them
-    out by deleting, inserting and modifying. Return the lowest cost.
+    int d = settings[0];
+    int i = settings[1];
+    int m = settings[3];
+    int best = -1;
 
-    array = 1 7 5
-
-    delete: (1)
-        7 5
-
-    insert: (2)
-        1 3 5 7 5
-
-    modify: (1)
-        1 3 5
-*/
+    for (int final_value = 0; final_value < 255; final_value++) {
+        int cost = solve(pixels.begin(), pixels.end() - 1,
+                         final_value, d, i, m);
+        if (best == -1)
+            best = cost;
+        else
+            best = std::min(best, cost);
+    }
+    return best;
 }
 
 int main()
@@ -62,10 +64,10 @@ int main()
     std::getline(std::cin, line);
     int num_cases = boost::lexical_cast<int, std::string>(line);
     for (int i = 0; i < num_cases; i++) {
-        Costs costs;
-        std::vector<int> array;
-        read_case(costs, array);
+        std::vector<int> settings;
+        std::vector<int> pixels;
+        read_case(settings, pixels);
         std::cout << "Case #" << i + 1 << ": " <<
-            calculate_cost(costs, array) << std::endl;
+            calculate_cost(settings, pixels) << std::endl;
     }
 }
