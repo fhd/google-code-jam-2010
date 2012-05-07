@@ -25,14 +25,14 @@ int solve(std::vector<int>::const_iterator first,
           std::vector<int>::const_iterator last, int final_value,
           int d, int i, int m)
 {
-    if (first == last)
+    if (first > last)
         return 0;
 
     int best = solve(first, last - 1, final_value, d, i, m) + d;
-    for (int prev_value = 0; prev_value < 255; prev_value++) {
+    for (int prev_value = 0; prev_value < 256; prev_value++) {
         int prev_cost = solve(first, last - 1, prev_value, d, i, m);
         int move_cost = abs(final_value - *last);
-        int num_inserts = (abs(final_value - *last) - 1) / m;
+        int num_inserts = (abs(final_value - prev_value) - 1) / m;
         int insert_cost = num_inserts * i;
         best = std::min(best, prev_cost + move_cost + insert_cost);
     }
@@ -44,10 +44,10 @@ int calculate_cost(const std::vector<int>& settings,
 {
     int d = settings[0];
     int i = settings[1];
-    int m = settings[3];
+    int m = settings[2];
     int best = -1;
 
-    for (int final_value = 0; final_value < 255; final_value++) {
+    for (int final_value = 0; final_value < 256; final_value++) {
         int cost = solve(pixels.begin(), pixels.end() - 1,
                          final_value, d, i, m);
         if (best == -1)
