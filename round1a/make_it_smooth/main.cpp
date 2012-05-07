@@ -1,9 +1,12 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <vector>
 #include <boost/lexical_cast.hpp>
+#include <boost/tuple/tuple.hpp>
+#include <boost/tuple/tuple_comparison.hpp>
 
 void read_numeric_line(std::vector<int> &elements) {
     std::string line;
@@ -25,6 +28,18 @@ int solve(std::vector<int>::const_iterator first,
           std::vector<int>::const_iterator last, int final_value,
           int d, int i, int m)
 {
+    typedef boost::tuple<std::vector<int>::const_iterator,
+                         std::vector<int>::const_iterator, int> Lookup_key;
+    typedef std::map<Lookup_key, int> Lookup_table;
+
+    static Lookup_table lookup_table;
+
+    Lookup_key key(first, last, final_value);
+
+    Lookup_table::iterator lookup_it = lookup_table.find(key);
+    if (lookup_it != lookup_table.end())
+        return lookup_it->second;
+
     if (first > last)
         return 0;
 
@@ -36,6 +51,9 @@ int solve(std::vector<int>::const_iterator first,
         int insert_cost = num_inserts * i;
         best = std::min(best, prev_cost + move_cost + insert_cost);
     }
+
+    lookup_table[key] = best;
+
     return best;
 }
 
