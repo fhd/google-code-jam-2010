@@ -44,12 +44,19 @@ int solve(std::vector<int>::const_iterator first,
         return 0;
 
     int best = solve(first, last - 1, final_value, d, i, m) + d;
-    for (int prev_value = 0; prev_value < 256; prev_value++) {
-        int prev_cost = solve(first, last - 1, prev_value, d, i, m);
-        int move_cost = abs(final_value - *last);
-        int num_inserts = (abs(final_value - prev_value) - 1) / m;
-        int insert_cost = num_inserts * i;
-        best = std::min(best, prev_cost + move_cost + insert_cost);
+    if (m > 0) {
+        for (int prev_value = 0; prev_value < 256; prev_value++) {
+            int prev_cost = solve(first, last - 1, prev_value, d, i, m);
+            int move_cost = abs(final_value - *last);
+            int num_inserts = (abs(final_value - prev_value) - 1) / m;
+            int insert_cost = num_inserts * i;
+            best = std::min(best, prev_cost + move_cost + insert_cost);
+        }
+    } else {
+        int cost = 0;
+        for (std::vector<int>::const_iterator it = last; it >= first; it--)
+            cost += abs(final_value - *it);
+        best = std::min(best, cost);
     }
 
     lookup_table[key] = best;
