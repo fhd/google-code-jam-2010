@@ -2,6 +2,7 @@ set(SRC_DIR ../src)
 
 include_directories(${SRC_DIR})
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
 find_package(GMP REQUIRED)
 
 add_executable(

@@ -1,5 +1,6 @@
 include_directories(../src)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(snapper_chain_test snapper_chain_test.cpp)
 target_link_libraries(snapper_chain_test ${Boost_LIBRARIES})
